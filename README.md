@@ -7,10 +7,12 @@
 
 ## How to build a site with this theme
 
-| page/post | template | plugin dependancy | logic
+| template| file | plugin dependancy | logic
 | :--- | :--- | :--- | :---
-| Detailed product | `inc/content-product.php` | Advanced Custom Fields | Common custom template relying on ACF to display « _price and availability_ » (`product-price`), « _specifications_ » (`product-specs`) and « _Taste tags_ » (`tastetag`).
-| Home | `front-page.php` | Advanced Custom Fields **PRO** | (Work in progress) Custom page relying on ACF Pro **repeters** to display product teasers as a gallery under a hero image.
+| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _price and availability_ » (`product-price`) from ACF
+| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _specifications_ » (`product-specs`) as a datagrid.
+| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display optional « _Taste tags_ » (`tastetag`) aside of the featured image of the product.
+
 
 
 
