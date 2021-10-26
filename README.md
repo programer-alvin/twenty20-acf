@@ -9,8 +9,8 @@
 
 | page/post | template | plugin dependancy | logic
 | :--- | :--- | :--- | :---
-| Home | `front-page.php` | Advanced Custom Fields **PRO** | Custom page relying on ACF Pro **repeters** to display product teasers as a gallery under a hero image.
-| Detailed product | `singular-product.php` | Advanced Custom Fields | Common custom template relying on ACF to display « _price and availability_ » (`product-price`), « _specifications_ » (`product-specs`) and « _Taste tags_ » (`tastetag`).
+| Detailed product | `singular-product.php` + `inc/content-product.php` | Advanced Custom Fields | Common custom template relying on ACF to display « _price and availability_ » (`product-price`), « _specifications_ » (`product-specs`) and « _Taste tags_ » (`tastetag`).
+| Home | `front-page.php` | Advanced Custom Fields **PRO** | (Work in progress) Custom page relying on ACF Pro **repeters** to display product teasers as a gallery under a hero image.
 
 
 
