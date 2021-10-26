@@ -1,0 +1,16 @@
+{
+  "name": "theme",
+  "version": "1.0.1",
+  "description": "Front-end stack for custom wordpress theme",
+  "author": "MartinDube.net",
+  "license": "ISC",
+  "main": "assets/js/theme.js",
+  "devDependencies": {
+    "sass": "^1.42.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "sass src/sass:assets/css --embed-sources --style=compressed --quiet --watch",
+    "compile": "sass src/sass:assets/css --embed-sources --style=compressed"
+  }
+}
