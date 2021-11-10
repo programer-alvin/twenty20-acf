@@ -1,115 +1,122 @@
 <?php
 /**
- * Template for displaying product content
+ * Template for displaying product detailed content
  *
- * Used for both singular and index.
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
+ * Used for singular-product.php
  *
  * @package WordPress
  * @subpackage Twenty_Twenty
  * @since Twenty Twenty 1.8
  * 
- * ----
- * Advanced Custom Fields (ACF)
+ * REQUIRED PLUGIN: Advanced Custom Fields (ACF)
  * @link https://www.advancedcustomfields.com/resources/#functions
  */
 
-$acf_fields_data 			= get_fields();
-
-// Field title: `Prix`
-$acf_productPrice_key		= 'group_617049954de37';
-$css_productPrice_container = 'acf product-price';
-
-$bloginfo_lang				= substr( get_bloginfo ( 'language' ), 0, 2 );
-if ($bloginfo_lang === 'fr') {
-	$currency_lang_fr = true;
+$page_lang	= substr( get_bloginfo ( 'language' ), 0, 2 );
+if ($page_lang === 'fr') {
+	$page_lang_fr = true;
 } else {
-	$currency_lang_fr = false;
+	$page_lang_fr = false;
 }
 
-// Field title: `Détails du produit`
-$acf_productSpecs_key		= 'group_616dbd35445ef';
-$css_productSpecs_container = 'acf product-specs';
+// Advanced Custom Fields : Returns an array of field values (name => value)
+$acf_fields_data 	= get_fields();
+$acf_winetype_key	= 'field_616dbe3f760b4';
 
-// Field title: `Tag SAQ`
-$acf_saqTag_key				= 'group_616f283c339f1';
-$acf_saqTag_containerId		= 'saq-taste-tag';
+// ACF containers
+$css_productPrice_class = 'acf product-price';
+$css_productSpecs_class = 'acf product-specs';
+$css_tastetag_id		= 'wine-taste-tag';
 
 if ( $acf_fields_data ) {
-	if ($name === 'winetype') {
-		$acf_winetype 	= $name;
-	} else {
-		$acf_winetype 	= false;
-	}
+
+	// Product Price and Availability
+	$acf_priceDollars 	= get_field_object('price');
+	$acf_priceCents 	= get_field_object('pricecents');
+	$acf_qty_visibility	= get_field_object('visibility');
+	$acf_qty_digit		= get_field_object('qty');
+	// Taste tag
+	$acf_tastetag_fieldKey	= 'field_616f2911f6b51';
+	$acf_tastetag_object 	= get_field_object('tastetag');
+	$acf_tastetag_subObject	= get_sub_field_object('tastetag');
+	// Wine type
+	$acf_winetype_fieldKey	= 'field_616dbe3f760b4';
+	$acf_winetype_object 	= get_field_object('winetype');
+	$acf_winetype_value 	= $acf_winetype_object['value'];
+	// Cepages
+	$acf_cepages_fieldKey	= 'field_616dc5bd760b5';
+	$acf_cepages_object		= get_field_object('cepages');
+	// Bottle cap
+	$acf_bottlecap_fieldKey	= 'field_6181b01918764';
+	$acf_bottlecap_object	= get_field_object('bottlecap');
 }
 ?>
 
-<article tmpl="template-parts" <?php post_class('twenty20 product-content ' . $acf_winetype['name']); ?> id="post-<?php the_ID(); ?>">
+<article tmpl="template-parts" <?php post_class('twenty20 product-content ' . $acf_winetype_value); ?> id="post-<?php the_ID(); ?>">
 
 
 	<?php
-
 	get_template_part( 'template-parts/entry-header' );
 
 	/**
-	 * Advanced Custom Fields
+	 * Product Price and Availability
+	 * AdvancedCustomFields
 	 */
 	if ( $acf_fields_data ) {
 
-		/**
-		 * ACF: Product Price and Availability
-		 */
-		$acf_dollars 		= get_field_object('price');
-		$acf_cents 			= get_field_object('pricecents');
-		$acf_qty_visibility	= get_field_object('visibility');
-		$acf_qty_digit		= get_field_object('qty');
-
-		echo('<section class="twenty20 acf-container entry-header"><p class="section-inner small acf product-price">');
+		echo('<section class="twenty20 acf-container entry-header">
+				<p class="section-inner small '. $css_productPrice_class .'">');
 
 			// Price
-			if ( !empty( $acf_dollars['value'] )) {
+			if ( !empty( $acf_priceDollars['value'] )) {
 
-				// If French
-				if ($bloginfo_lang === 'fr') {
+				// French
+				if ( $page_lang_fr === true ) {
 
-					if ( !empty( $acf_cents['value'] )) {
+					if ( !empty( $acf_priceCents['value'] )) {
 						echo('<strong class="value">
-								<span class="price dollars">'. $acf_dollars['value'] .'</span>
-								<span class="price cents">,'. $acf_cents['value'] .'</span>
+								<span class="price dollars">'. $acf_priceDollars['value'] .'</span>
+								<span class="price cents">,'. $acf_priceCents['value'] .'</span>
 								<span class="currency">$</span> 
 							</strong>');
 					} else {
 						echo('<strong class="value">
-								<span class="price dollars">'. $acf_dollars['value'] .'</span>
+								<span class="price dollars">'. $acf_priceDollars['value'] .'</span>
 								<span class="currency">$</span> 
 							</strong>');
 					}
 					echo ('<span class="txinc">Taxes incluses</span>');
 
 				} else {
+					// English
 
-					if ( !empty( $acf_cents['value'] )) {
+					if ( !empty( $acf_priceCents['value'] )) {
 						echo('<strong class="value">
 								<span class="currency">$</span>
-								<span class="price dollars">'. $acf_dollars['value'] .'</span>
-								<span class="price cents">,'. $acf_cents['value'] .'</span>
+								<span class="price dollars">'. $acf_priceDollars['value'] .'</span>
+								<span class="price cents">,'. $acf_priceCents['value'] .'</span>
 							</strong>');
 					} else {
 						echo('<strong class="value">
 								<span class="currency">$</span>
-								<span class="price dollars">'. $acf_dollars['value'] .'</span>
+								<span class="price dollars">'. $acf_priceDollars['value'] .'</span>
 							</strong>');
 					}
 					echo ('<span class="txinc">Taxes included</span>');
 
 				}
-				echo('</p>');
+				echo('</p><!-- .section-inner -->');
 			}
 
 			// Availability
 			if ( !empty( $acf_qty_visibility['value'] )) {
-				echo ( '<p class="section-inner small acf inventory">'. __( 'Plus que', 'Only', 'twenty20 inventory' ) .' <strong>'. $acf_qty_digit['value'] .'</strong> '. __('bouteilles en inventaire !', 'bottles left in inventory!', 'twenty20 inventory' ) .'</p>' );
+				if ( $acf_qty_digit['value'] <= 30 ) {
+					echo ( '<p class="section-inner small acf inventory backorder">'. __( 'Plus que', 'Only', 'twenty20 inventory' ) .' <strong>'. $acf_qty_digit['value'] .'</strong> '. __('bouteilles en inventaire !', 'bottles left in inventory!', 'twenty20 inventory' ) .'</p>' );
+				} elseif ( $acf_qty_digit['value'] <= 350 ) {
+					echo ( '<p class="section-inner small acf inventory low">'. __('Faites vite, plus que quelques bouteilles en inventaire!', 'Hurry up, only a few bottles left in stock!', 'twenty20 inventory' ) .'</p>' );
+				} else {
+					echo ( '<p class="section-inner small acf inventory ok">'. __( 'Millésime en inventaire', 'Vintage in inventory', 'twenty20 inventory' ) );
+				}
 			}
 
 		echo('</section><!-- .twenty20 -->');
@@ -120,17 +127,15 @@ if ( $acf_fields_data ) {
 
 
 	/**
-	 * Advanced Custom Fields : SAQ Taste Tags
+	 * Taste Tags
+	 * AdvancedCustomFields
 	 */
 	if ( $acf_fields_data ) {
 
-		$acf_saqtag 		= get_field_object('saqtag');
-		$acf_saqtag_item	= get_sub_field_object('saqtag');
-
-		if ( $acf_saqtag['value'] != false ) {
-			echo ( '<p id="'. $acf_saqTag_containerId .'">
-						<span class="saqtag wine '. $acf_saqtag['value'] .'" title="'. $acf_saqtag['label'] .'">
-							<em>'. $acf_saqtag['value'] .'</em>
+		if ( $acf_tastetag_object['value'] != false ) {
+			echo ( '<p id="'. $css_tastetag_id .'">
+						<span class="tastetag wine '. $acf_tastetag_object['value'] .'" title="'. $acf_tastetag_object['label'] .'">
+							<em>'. $acf_tastetag_object['value'] . $acf_tastetag_subObject['label'] .'</em>
 						</span>
 					</p>' );
 		}
@@ -143,66 +148,58 @@ if ( $acf_fields_data ) {
 			if ( is_search() || ! is_singular() && 'summary' === get_theme_mod( 'blog_content', 'full' ) ) {
 				the_excerpt();
 			} else {
-				the_content( __( 'Continue reading', 'twenty20 parts' ) );
+				the_content( __( 'Continue reading', 'theme parts' ) );
 			}
 			/**
-			 * Advanced Custom Fields : Product Specifications
+			 * Product Specifications
+			 * AdvancedCustomFields
 			 */
 			if( $acf_fields_data ) {
 
-				$acf_field_string 		= get_field_object('title');
+				/**
+				 * dev_note:
+				 * TODO: $acf_productSpecs_groupTitle to print 'title' string
+				 */
+				$acf_productSpecs_groupTitle 	= get_field_object('title');
 
 				echo ('<section class="twenty20 acf-container">
 						<hr>
-						<h3 class="'. $css_productSpecs_container .' title"><span>h3'. $acf_field_string .'</span></h3>'.
-						'<dl class="inline-grid '. $css_productSpecs_container .'">');
+						<h2 class="'. $css_productSpecs_class .' title heading-size-3"><span>Détails du produit</span></h2>'.
+						'<dl class="inline-grid '. $css_productSpecs_class .'">');
 
 				foreach ( $acf_fields_data as $name => $value ) {
 
-					$field_name 	= get_field_object( $name );
+					$object_name 	= get_field_object( $name );
 
-					if ($name === 'price' || $name === 'pricecents' || $name === 'visibility' || $name === 'qty' || $name === 'saqtag') {
+					/**
+					 * dev_note:
+					 * This is ugly but gets the job done until I found 
+					 * how to limite the loop to only the `productSpecs` group.
+					 */
+					if ($name === 'price' || $name === 'pricecents' || $name === 'visibility' || $name === 'qty' || $name === 'tastetag') {
 						continue;
 					}
 					elseif ($value != false) {
 					?>
 						<dt class="name <?php echo $name; ?>">
-							<strong class="label"><?php echo $field_name['label'] ?></strong>
+							<strong class="label"><?php echo $object_name['label'] ?></strong>
 						</dt>
 						<dd class="value <?php echo $name; ?>">
 						<?php
-							// display each checkboxes type fields values as <li>
+							// display an array of checked checkboxes
 							if ($name === 'cepages') {
 
-								$name_items = get_field( $name );
+								$field_choices 	= get_field( $name );
 
 								echo ('<ul class="inline-values">');
-								foreach( $name_items as $item ) {
+								foreach( $field_choices as $choice ) {
 
-									//TODO: echo ['label'] instead of $item
-									$item_label		= $item;
-
-									echo ( '<li class="'. $item .'"><span>'. $item_label .'</span></li>');
+									echo ( '<li class="'. $choice .'"><span>'. $choice['label'] .'</span></li>');
 
 								}
 								echo ('</ul>');
 							}
-							// checked values as <li>
-							elseif ($name === 'bottle') {
-
-								$collumn_items = get_field('bottle');
-
-								echo ('<ul class="columns">');
-								foreach( $collumn_items as $item => $value ) {
-
-									//TODO: echo ['label'] instead of $value
-									$value_label	= $value;
-
-									echo ( '<li><strong class="label '. $item .'">'. $item .'</strong> <span class="value '. $item .'">'. $value_label .'</span></li>');
-
-								}
-								echo ('</ul>');
-							}
+							// Debug TODO: Display $value['label'] string instead of $value
 							else {
 								echo ('<span>'. $value .'</span>');
 							}
