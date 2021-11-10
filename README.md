@@ -10,8 +10,9 @@
 | template| file | plugin dependancy | logic
 | :--- | :--- | :--- | :---
 | Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _price and availability_ » (`product-price`) from ACF
-| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _specifications_ » (`product-specs`) as a datagrid.
 | Singular product | `inc/content-product.php` | Advanced Custom Fields | Display optional « _Taste tags_ » (`tastetag`) aside of the featured image of the product.
+| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _wine specifications_ » (`product-specs`) as a datagrid.
+| Singular product | `inc/content-product.php` | Advanced Custom Fields | Display « _bottle specifications_ » (`product-specs`) as a datagrid.
 
 
 
@@ -39,7 +40,6 @@
 
 -   [Advanced Custom Fields **PRO** (_ACF_)](https://wordpress.org/plugins/advanced-custom-fields/) (version 5.10.2) for product detailed pages (`/singular-product.php`). 
       - ACF fields are declared via PHP within the `functions.php` file. Any _key_ parameters or values that are define in the functions file is prioritise over what is set in ACF database via dashboard.
-      - The PRO licence is required for the REPEATER used on the front-page.
 
 
 
