@@ -53,7 +53,7 @@ if( function_exists('acf_add_local_field_group') ):
 	// Product Content Details
 	$acf_wineSpecs_key		= 'group_616dbd35445ef';
 	// Product Container Details
-	$acf_bottleSpecs_key	= 'group_616dbd35445ef';
+	$acf_bottleSpecs_key	= 'group_6181aeae2781d';
 
 
 	acf_add_local_field_group(array(
