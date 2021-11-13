@@ -42,7 +42,6 @@ add_action( 'wp_enqueue_scripts', 'twenty20_styles_scripts' );
 /**
  * Advanced Custom Fields PRO (required plugin)
  * @link https://www.advancedcustomfields.com/my-account/view-licenses/
- * PRO licence key = MGI5ZjRjMWFmMGQ4NmJiNGU5ZTQ5YTA1ZWE1OTM5M2YwZTFjMGQxOTIyMDc5YzBhYWU5M2Zi
  */
 if( function_exists('acf_add_local_field_group') ):
 
