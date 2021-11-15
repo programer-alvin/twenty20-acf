@@ -194,13 +194,14 @@ if ( $acf_fields_data ) {
 								echo ('<ul class="inline-values">');
 								foreach( $field_choices as $choice ) {
 
-									echo ( '<li class="'. $choice .'"><span>'. $choice['label'] .'</span></li>');
+									echo ( '<li class="'. $choice['value'] .'"><span>'. $choice['label'] .'</span></li>');
 
 								}
 								echo ('</ul>');
 							}
 							// Debug TODO: Display $value['label'] string instead of $value
 							else {
+								$value=is_array($value)? $value['label'] :$value;//check if the value is an array
 								echo ('<span>'. $value .'</span>');
 							}
 							?>
